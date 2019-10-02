@@ -1,0 +1,35 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'Demo' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for Demo
+
+  # target 'Demo-tvOSTests' do
+  #   inherit! :search_paths
+  #   # Pods for testing
+  # end
+
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
+  target 'DemoTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+# target 'Demo-tvOS' do
+#   # Comment the next line if you don't want to use dynamic frameworks
+#   use_frameworks!
+
+#   # Pods for Demo-tvOS
+
+#   target 'Demo-tvOSTests' do
+#     inherit! :search_paths
+#     # Pods for testing
+#   end
+
+# end
