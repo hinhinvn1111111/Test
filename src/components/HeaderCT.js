@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react'
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet,Dimensions } from 'react-native';
 import color from '../utils/color';
 
 export default class index extends PureComponent {
     render() {
+        let {child} = this.props
         return (
             <View style={styles.contener}>
-                <Text style={styles.lable}>{this.props.title || ''}</Text>
+                {child}
             </View>
         );
     }
@@ -14,13 +15,9 @@ export default class index extends PureComponent {
 
 const styles = StyleSheet.create({
     contener:{
-        height:60,
+        height:Dimensions.get('window').height/10,
         backgroundColor:color.brlogin,
         justifyContent:'center',
-        paddingHorizontal:30
-    },
-    lable:{
-        fontSize:22,
-        color:color.white
+        // paddingHorizontal:30
     }
 })

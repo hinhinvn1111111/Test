@@ -3,11 +3,18 @@ import Appconfig from '../AppConfig'
 import url from './url'
 import config from '../config'
 
+let token = ''
+
 const api = create({
     baseURL: config.baseURL,
     headers: { Accept: 'application/json' },
     timeout: Appconfig.TIME_OUT_REQUEST
 })
+
+const setUserToken = userToken => {
+    token = userToken
+    api.setHeaders({ Accept: 'application/json', authorization: token })
+}
 
 const showApi = (api,slug) => {
     console.log('----- CONFIG API -------' + JSON.stringify(api,undefined,3));
@@ -27,5 +34,6 @@ const getList = () => {
 
 export default {
     getToken,
-    getList
+    getList,
+    setUserToken
 }

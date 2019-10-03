@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet,TextInput,Dimensions,ActivityIndicator} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet,TextInput,Dimensions,ActivityIndicator,Platform} from 'react-native';
 import color from '../../utils/color';
 import {Icon} from 'react-native-eva-icons'
 import api from '../../api'
@@ -27,8 +27,8 @@ export default class index extends PureComponent {
     constructor(props){
         super(props)
         this.state = {
-            email : '',
-            pwd : '',
+            email : 'goroyven@gmail.com',
+            pwd : '123456',
             isLoading : false
         }
         this._handleLogin = this._handleLogin.bind(this)
@@ -43,10 +43,12 @@ export default class index extends PureComponent {
         this.setState({isLoading:true})
         try {
             api.getToken({username:email,password:pwd})
-            .then(res=>{
+            .then(async(res)=>{
                 if(res.status===200){
                     this.setState({isLoading:false})
-                    Actions.Template()
+                    let token = 'Bearer ' + res.data.token
+                    await api.setUserToken(token)
+                    await Actions.Template()
                 }else{
                     alert(res.problem)
                     this.setState({isLoading:false})
@@ -115,7 +117,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor:color.white,
         width:Dimensions.get('window').width-48,
-        marginTop:7
+        marginTop:7,
+        paddingVertical:Platform.OS==='ios' ? 10 : 0
     },
     btn:{
         width:Dimensions.get('window').width/2,
@@ -138,6 +141,7 @@ const styles = StyleSheet.create({
     },
     textinput:{
         color:color.white,
-        flex:1
+        flex:1,
+        marginLeft:Platform.OS==='ios' ? 7 : 4
     }
 })

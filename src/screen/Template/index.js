@@ -6,8 +6,8 @@ import Cart from '../Cart'
 import NoScreen from '../NoScreen'
 import color from '../../utils/color';
 import { Icon } from 'react-native-eva-icons';
-
-export default class index extends PureComponent {
+import { connect } from 'react-redux'
+class index extends PureComponent {
     constructor(props){
         super(props)
         this.state={
@@ -15,10 +15,32 @@ export default class index extends PureComponent {
             selected : true,
             count : 0,
             data : [],
-            checklogin : null
+            checklogin : null,
+            count : 0
         }
+        this._UpdateCount = this._UpdateCount.bind(this)
     }
+
+    _UpdateCount(dataOrigin){
+        let data = dataOrigin || []
+        let count = 0
+        for(let i of data){
+            count += i.count
+        }
+        this.setState({count},()=>this.forceUpdate())
+    }
+
+    componentDidMount(){
+        this._UpdateCount(this.props.listData)
+    }
+
+    componentWillReceiveProps(nextprops){
+        this._UpdateCount(nextprops.listData)
+    }
+
+
     render() {
+        let {count} = this.state || 0
         return (
             <View style={styles.contener}>
                 <TabNavigator  tabBarStyle={{backgroundColor:color.brlogin}}>
@@ -53,7 +75,7 @@ export default class index extends PureComponent {
                         renderIcon={() => <Icon name='shopping-cart-outline' width={24} height={24} fill={color.white}/>}
                         renderSelectedIcon={() => <Icon name='shopping-cart' width={24} height={24} fill={color.yellowDark}/>}
                         onPress={() => this.setState({ selectedTab: 'cart',selected:false })}
-                        badgeText='3'
+                        badgeText={count===0 ? '' : count}
                         >
                         {<Cart />}
                     </TabNavigator.Item>
@@ -70,6 +92,18 @@ export default class index extends PureComponent {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return ({
+        listData: state.CartReducer.data || [],
+        loading : state.CartReducer.loading || false
+    })
+}
+const mapDispatchToProps = (dispatch) => ({
+    // requestGetList: (callbackSuccess, callbackError) =>
+    //     dispatch(actionGetList(callbackSuccess, callbackError))
+})
+export default connect(mapStateToProps, mapDispatchToProps)(index)
 
 const styles = StyleSheet.create({
     contener:{

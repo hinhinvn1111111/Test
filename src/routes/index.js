@@ -11,10 +11,10 @@ export default class App extends PureComponent{
         return(
             <Router>
                 <Stack key="root">
-                    <Scene key="Login" component={Login} hideNavBar  />
+                    <Scene key="Login" component={Login} hideNavBar initial={true} />
                     <Scene key="Cart" component={Cart} hideNavBar />
                     <Scene key="Home" component={Home} hideNavBar/>
-                    <Scene key="Template" component={Template} hideNavBar initial={true}/>
+                    <Scene key="Template" component={Template} hideNavBar />
                 </Stack>
             </Router>
         )
